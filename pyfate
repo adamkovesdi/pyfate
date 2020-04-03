@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+
+from bottle import route, run, template, get, request, redirect
+import random
+import time
+
+rollstring = '++++++++--------        '
+data = [ ]
+
+@route('/')
+def hello():
+    return template('rolls', rolls = data)
+
+@get('/roll', method='GET')
+def process_roll():
+    newmess = request.params.get('message')
+    newroll = ''.join(random.sample(rollstring,4))
+    newdata = {}
+    newdata['timestamp'] = time.ctime()
+    newdata['message'] = newmess
+    newdata['roll'] = newroll
+    newdata['result'] = newroll.count('+') - newroll.count('-')
+    data[:0] = [ newdata ]
+    redirect('/')
+
+run(host='localhost', port=8080, debug=True)
+
