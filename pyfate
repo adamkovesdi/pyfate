@@ -23,5 +23,5 @@ def process_roll():
     data[:0] = [ newdata ]
     redirect('/')
 
-run(host='localhost', port=8080, debug=True)
+run(host='localhost', port=8080, debug=True, reloader=True)
 
