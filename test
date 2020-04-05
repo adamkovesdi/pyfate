@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+import random
+import re
+rollstring = '++++++++--------        '
+
+def printladder():
+    print("Legendás     +8")
+    print("Epikus       +7")
+    print("Fantasztikus +6")
+    print("Szuper       +5")
+    print("Nagyszerű    +4")
+    print("Jó           +3")
+    print("Fair         +2")
+    print("Átlagos      +1")
+    print("Középszerű   +0")
+    print("Gyenge       -1")
+    print("Szörnyű      -2")
+
+def roll():
+    return ''.join(random.sample(rollstring,4))
+
+def evaluate_roll(rolled, mod=0):
+    return rolled.count('+') - rolled.count('-') + mod
+
+def calculate_mod(rollstring):
+    if len(rollstring) == 1: return 0
+    try:
+        return int(rollstring[1:])
+    except ValueError:
+        print(f" * ERROR: modifier interpretation error at: { rollstring[1:] }")
+        return 0
+
+def create_rollobject(rollstring):
+    if rollstring is None: return
+    rollobject = {}
+    rollobject["mod"] = calculate_mod(rollstring)
+    rollobject["rollstring"] = rollstring
+    rollobject["fatestring"] = roll()
+    rollobject["result"] = evaluate_roll(rollobject["fatestring"], mod)
+    return rollobject
+
+def dorolls(rollstrings):
+    if rollstrings is None: return
+    results = []
+    for rollstring in rollstrings:
+        mod = calculate_mod(rollstring)
+        rolled = roll()
+        result = evaluate_roll(rolled, mod)
+        results.append(result)
+        print(f" [{rolled}] {evaluate_roll(rolled)} + {mod} = {result}")
+    if len(results) == 2:
+        print(f"Rolls difference: {results[0] - results[1]}")
+
+def getrolls(tokens):
+    rollcmds = list(filter(lambda x: x[0] == '!', tokens))
+    return rollcmds
+
+def parseinput(line):
+    tokens = line.split()
+    rolls = getrolls(tokens)
+    dorolls(rolls)
+
+def printroll(rolled, mod=0):
+    print("[" + rolled + "]")
+
+while True:
+    line = input().strip()
+    if line == "help" or line == "?" or line == "h":
+        print(" * Commands: quit, l: print ladder, ![mod]: for dice rolls")
+        continue
+    if line == "":
+        continue
+    if line == "l":
+        printladder()
+        continue
+    if line == "quit" or line == 'q':
+        break
+    parseinput(line)
+
+
