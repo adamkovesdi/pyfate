@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import random
 import time
+import json
 rollstring = '++++++++--------        '
 
 def roll():
@@ -57,16 +58,30 @@ def create_logentry(rollobjects, message):
     logentry["timestring"] = time.ctime()
     logentry["message"] = message
     logentry["rollobjects"] = rollobjects
-    rollresults = []
-    for r in rollobjects:
-        temp = '[{0}] {1} + {2} = {3}'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"])
-        rollresults.append(temp)
-    logentry["rollresults"] = rollresults
-    if len(rollobjects) == 2:
-        logentry["rollsdifference"] = 'Rolls difference: {0}'.format(diff_rollobjects(rollobjects))
     return logentry
 
-# print and input code after here
+def save_logbook(logbook):
+    with open('logbook.json', 'w') as fp:
+        json.dump(logbook, fp)
+
+def load_logbook():
+    with open('logbook.json', 'r') as fp:
+        return json.load(fp)
+    
+# Display and input code follows
+
+def print_logentry(logentry):
+    print(logentry["timestring"])
+    print(logentry["message"])
+    rollobjects = logentry["rollobjects"]
+    for r in rollobjects:
+        print(' [{0}] {1} + {2} = {3}'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"]))
+    if len(rollobjects) == 2:
+        print(' Rolls difference: {0}'.format(diff_rollobjects(rollobjects)))
+
+def print_logbook(logbook):
+    for l in logbook:
+        print_logentry(l)
 
 def printladder():
     print("Legendás     +8")
@@ -81,11 +96,7 @@ def printladder():
     print("Gyenge       -1")
     print("Szörnyű      -2")
 
-def print_rollobjects(rollobjects):
-    for r in rollobjects:
-        print(f' [{r["fatestring"]}] {r["rollvalue"]} + {r["mod"]} = {r["result"]}')
-    if len(rollobjects) == 2:
-        print(f' Rolls difference: {diff_rollobjects(rollobjects)}')
+logbook = []
 
 while True:
     print('> ', end='')
@@ -94,21 +105,29 @@ while True:
     except EOFError:
         quit();
     if line == 'help' or line == '?' or line == 'h':
-        print(' * Commands: quit, repeat, ladder, ![mod]: for dice rolls')
+        print(' * Commands: quit, history, save, load, repeat, ladder, ![mod]: for dice rolls')
         continue
     if line == '':
         continue
     if line == 'l' or line == 'ladder':
         printladder()
         continue
+    if line == 's' or line == 'save':
+        save_logbook(logbook)
+        continue
+    if line == 'load' or line == 'restore':
+        logbook = load_logbook()
+        continue
+    if line == 'his' or line == 'history':
+        print_logbook(logbook)
+        continue
     if line == 'q' or line == 'quit' or line == 'exit':
         break
     if line == 'r' or line == 'repeat':
         line = lastline
     rollobjects = get_rollobjects(line)
-    print("\n" + line)
-    print_rollobjects(rollobjects)
     logentry = create_logentry(rollobjects, line)
-    print(logentry)
+    print_logentry(logentry)
+    logbook.append(logentry)
     lastline = line
 
