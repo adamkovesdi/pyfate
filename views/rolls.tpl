@@ -6,7 +6,7 @@
     <title>Rolls</title>
 
 <style>
-// @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
 * {
   margin: 0;
   padding: 0;
@@ -24,28 +24,8 @@ body {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   font-weight: 100;
   font-size: 12px;
-  line-height: 30px;
   color: #777;
   background: #EEEEEE;
-}
-
-.left,
-.right {
-	float: left;
-	width: 20%;
-	line-height: 20px;
-}
-
-.center {
-	float: left;
-	width: 60%;
-}
-
-
-.row:after {
-	content: "";
-	display: table;
-	clear: both;
 }
 
 .container {
@@ -55,7 +35,18 @@ body {
   position: relative;
 }
 
+.logbook {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.entry {
+}
+
 #formstyle {
+  line-height: 30px;
   background: #F9F9F9;
   padding: 25px;
   margin: 20px 0;
@@ -141,73 +132,18 @@ fieldset {
 
 <div class="container">
   <form id="formstyle" action="roll" method="get">
-	<div class="row">
-	<div class="left">
-		<fieldset class="ladder">
-			<input type="radio" name="difficulty" id="average" value="average">
-			<label for="average">Átlagos</label><br />
-			<input type="radio" name="difficulty" id="fair" value="fair">
-			<label for="fair">Fair</label><br />
-			<input type="radio" name="difficulty" id="good" value="good">
-			<label for="good">Jó</label><br />
-			<input type="radio" name="difficulty" id="great" value="great">
-			<label for="great">Nagyszerű</label><br />
-			<input type="radio" name="difficulty" id="super" value="super">
-			<label for="super">Szuper</label><br />
-			<input type="radio" name="difficulty" id="fantastic" value="fantastic">
-			<label for="fantastic">Fantasztikus</label><br />
-			<input type="radio" name="difficulty" id="epic" value="epic">
-			<label for="epic">Epikus</label><br />
-			<input type="reset" />
-		</fieldset>
-	</div>
-	<div class="center">
 		<textarea name="message" placeholder="Roll description" tabindex="1" required autofocus></textarea>
-		<button name="submit" type="submit" data-submit="...Sending" tabindex="2">Roll!</button>
-	</div>
-	<div class="right">
-		<fieldset class="approaches">
-			<input type="radio" name="approach" id="zero" value="0">
-			<label for="zero">0</label><br />
-			<input type="radio" name="approach" id="one" value="1">
-			<label for="one">+1</label><br />
-			<input type="radio" name="approach" id="two" value="2">
-			<label for="two">+2</label><br />
-			<input type="radio" name="approach" id="three" value="3">
-			<label for="three">+3</label><br />
-			<input type="radio" name="approach" id="four" value="4">
-			<label for="four">+4</label><br />
-			<input type="radio" name="approach" id="five" value="5">
-			<label for="five">+5</label><br />
-			<input type="radio" name="approach" id="six" value="6">
-			<label for="six">+6</label><br />
-			<input type="reset" />
-		</fieldset>
-	</div>
-	</div>
+		<button name="submit" type="submit" tabindex="2">Roll!</button>
   </form>
 </div>
 
-<div class="container">
-    <table id="rollstable">
-        <tr>
-            <th>Timestamp</th>
-            <th>Message</th>
-            <th>Roll</th>
-            <th>Result</th>
-        </tr>
-        % for roll in rolls:
-        <tr>
-            <td>{{roll['timestamp']}}</td>
-            <td>{{roll['message']}}</td>
-            <td>{{roll['roll']}}</td>
-            <td>{{roll['result']}}</td>
-        </tr>
-        % end
-    </table>
+<div class="logbook">
+% for entry in entries:
+<pre class="entry">
+{{ entry }}
+</pre>
+% end
 </div>
-
-
 
 </body>
 </html>

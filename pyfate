@@ -3,24 +3,37 @@
 from bottle import route, run, template, get, request, redirect
 import random
 import time
+import core
 
-rollstring = '++++++++--------        '
-data = [ ]
+def stringify(logbook):
+    logbook.reverse()
+    entries = []
+    for logentry in logbook:
+        s = logentry["timestring"] + "\n"
+        s = s + logentry["message"] + "\n"
+        rollobjects = logentry["rollobjects"]
+        for r in rollobjects:
+            s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"])
+        if len(rollobjects) == 2:
+            s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
+        entries.append(s)
+    return entries
+
 
 @route('/')
-def hello():
-    return template('rolls', rolls = data)
+def docroot():
+    lb = core.load_logbook()
+    data = stringify(lb)
+    return template('rolls', entries = data)
 
 @get('/roll', method='GET')
 def process_roll():
-    newmess = request.params.get('message')
-    newroll = ''.join(random.sample(rollstring,4))
-    newdata = {}
-    newdata['timestamp'] = time.ctime()
-    newdata['message'] = newmess
-    newdata['roll'] = newroll
-    newdata['result'] = newroll.count('+') - newroll.count('-')
-    data[:0] = [ newdata ]
+    logbook = core.load_logbook()
+    line = request.params.get('message')
+    rollobjects = core.get_rollobjects(line)
+    logentry = core.create_logentry(rollobjects, line)
+    logbook.append(logentry)
+    core.save_logbook(logbook)
     redirect('/')
 
 run(host='localhost', port=8080, debug=True, reloader=True)
