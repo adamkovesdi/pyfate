@@ -35,7 +35,7 @@ body {
   position: relative;
 }
 
-.logbook {
+#logbook {
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
@@ -137,13 +137,22 @@ fieldset {
   </form>
 </div>
 
-<div class="logbook">
+<div id="logbook">
 % for entry in entries:
 <pre class="entry">
 {{ entry }}
 </pre>
 % end
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script> 
+$(document).ready(function(){
+setInterval(function(){
+$("#logbook").load(location.href+" #logbook>*","");
+}, 5000);
+});
+</script>
 
 </body>
 </html>
