@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
 from bottle import route, run, template, get, request, redirect
+import bottle
 import random
 import time
 import core
+import os
 
 def stringify(logbook):
     logbook.reverse()
@@ -36,5 +38,4 @@ def process_roll():
     core.save_logbook(logbook)
     redirect('/')
 
-run(host='localhost', port=8080, debug=True, reloader=True)
-
+application = bottle.default_app()

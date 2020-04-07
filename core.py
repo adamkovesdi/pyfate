@@ -2,6 +2,7 @@
 import random
 import time
 import json
+import os
 rollstring = '++++++++--------        '
 
 def roll():
@@ -61,9 +62,13 @@ def create_logentry(rollobjects, message):
     return logentry
 
 def save_logbook(logbook):
-    with open('logbook.json', 'w') as fp:
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    my_file = os.path.join(THIS_FOLDER, 'logbook.json')
+    with open(my_file, 'w') as fp:
         json.dump(logbook, fp)
 
 def load_logbook():
-    with open('logbook.json', 'r') as fp:
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    my_file = os.path.join(THIS_FOLDER, 'logbook.json')
+    with open(my_file, 'r') as fp:
         return json.load(fp)
