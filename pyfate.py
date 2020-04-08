@@ -31,7 +31,7 @@ def docroot():
 @get('/roll', method='GET')
 def process_roll():
     logbook = core.load_logbook()
-    line = request.params.get('message')
+    line = request.query.message
     rollobjects = core.get_rollobjects(line)
     logentry = core.create_logentry(rollobjects, line)
     logbook.append(logentry)
