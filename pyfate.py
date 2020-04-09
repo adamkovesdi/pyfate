@@ -30,12 +30,10 @@ def docroot():
 
 @get('/roll', method='GET')
 def process_roll():
-    logbook = core.load_logbook()
     line = request.query.message
     rollobjects = core.get_rollobjects(line)
     logentry = core.create_logentry(rollobjects, line)
-    logbook.append(logentry)
-    core.save_logbook(logbook)
+    core.appendentry_save(logentry)
     redirect('/')
 
 application = bottle.default_app()
