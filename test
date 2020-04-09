@@ -62,8 +62,7 @@ while True:
         line = lastline
     # Normal input processing:
     logentry = core.submit(line)
-    print(logentry)
-    print(core.rollobjects_from_entry(logentry))
+    print_logentry(logentry)
     # append history
     logbook.append(logentry)
     # for repeat:
