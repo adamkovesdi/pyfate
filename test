@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import core
+import persistentstorage
 
 def print_logentry(logentry):
     print(logentry["timestring"])
@@ -44,10 +45,10 @@ while True:
         printladder()
         continue
     if line == 's' or line == 'save':
-        core.save_logbook(logbook)
+        persistentstorage.save_logbook(logbook)
         continue
     if line == 'load' or line == 'restore':
-        logbook = core.load_logbook()
+        logbook = persistentstorage.load_logbook()
         continue
     if line == 'his' or line == 'history':
         print_logbook(logbook)

@@ -5,6 +5,7 @@ import bottle
 import random
 import time
 import core
+import persistentstorage
 import os
 
 def stringify(logbook):
@@ -24,7 +25,7 @@ def stringify(logbook):
 
 @route('/')
 def docroot():
-    lb = core.load_logbook()
+    lb = persistentstorage.load_logbook()
     data = stringify(lb)
     return template('rolls', entries = data)
 
@@ -33,7 +34,7 @@ def process_roll():
     line = request.query.message
     rollobjects = core.get_rollobjects(line)
     logentry = core.create_logentry(rollobjects, line)
-    core.appendentry_save(logentry)
+    persistentstorage.appendentry_save(logentry)
     redirect('/')
 
 application = bottle.default_app()
