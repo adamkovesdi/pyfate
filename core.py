@@ -32,8 +32,32 @@ def create_rollresults(line):
         results.append(roll)
     return results
 
-def get_rollobjects(line):
-    return []
+def create_rollobject(rollstring, result):
+    if rollstring is None: return
+    rollobject = {}
+    rollobject["cmd"] = rollstring
+    rollobject["fate"] = result
+    rollobject["roll"] = evaluate_rollcmd(rollobject["fate"])
+    rollobject["mod"] = calculate_mod(rollstring)
+    rollobject["result"] = evaluate_rollcmd(rollobject["fate"],
+        rollobject["mod"])
+    return rollobject
+
+def diff_rollobjects(rollobjects):
+    if len(rollobjects) == 2:
+        return rollobjects[0]["result"] - rollobjects[1]["result"]
+    else:
+        return 0
+
+def produce_rollobjects(text, results):
+    rollstrings = get_rollcmds(text)
+    rollobjects = []
+    for n, rollstring in enumerate(rollstrings):
+        rollobjects.append(create_rollobject(rollstring,results[n]))
+    return rollobjects
+
+def rollobjects_from_entry(entry):
+    return produce_rollobjects(entry["text"], entry["results"])
 
 def create_logentry(text, results):
     logentry = {}
@@ -43,6 +67,7 @@ def create_logentry(text, results):
     return logentry
 
 def submit(text):
+    # This is the time when the dice gets rolled
     results = create_rollresults(text)
     return create_logentry(text, results)
 

@@ -4,13 +4,15 @@ import time
 import persistentstorage
 
 def print_logentry(logentry):
-    print(time.ctime(logentry["timestamp"]))
-    print(logentry["text"])
-    # rollobjects = logentry["rollobjects"]
-    # for r in rollobjects:
-        # print(' [{0}] {1} + {2} = {3}'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"]))
-    # if len(rollobjects) == 2:
-        # print(' Rolls difference: {0}'.format(core.diff_rollobjects(rollobjects)))
+    s = time.ctime(logentry["timestamp"]) + "\n"
+    s = s + logentry["text"] + "\n"
+    rollobjects = core.produce_rollobjects(logentry["text"],
+    logentry["results"])
+    for r in rollobjects:
+        s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fate"], r["roll"], r["mod"], r["result"])
+    if len(rollobjects) == 2:
+        s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
+    print(s)
 
 def print_logbook(logbook):
     for l in logbook:
@@ -61,6 +63,7 @@ while True:
     # Normal input processing:
     logentry = core.submit(line)
     print(logentry)
+    print(core.rollobjects_from_entry(logentry))
     # append history
     logbook.append(logentry)
     # for repeat:

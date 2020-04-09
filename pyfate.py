@@ -14,14 +14,14 @@ def stringify(logbook):
     for logentry in logbook:
         s = time.ctime(logentry["timestamp"]) + "\n"
         s = s + logentry["text"] + "\n"
-        # rollobjects = logentry["rollobjects"]
-        # for r in rollobjects:
-            # s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"])
-        # if len(rollobjects) == 2:
-            # s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
+        rollobjects = core.produce_rollobjects(logentry["text"],
+                logentry["results"])
+        for r in rollobjects:
+            s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fate"], r["roll"], r["mod"], r["result"])
+        if len(rollobjects) == 2:
+            s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
         entries.append(s)
     return entries
-
 
 @route('/')
 def docroot():
