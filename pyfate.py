@@ -12,13 +12,13 @@ def stringify(logbook):
     logbook.reverse()
     entries = []
     for logentry in logbook:
-        s = logentry["timestring"] + "\n"
-        s = s + logentry["message"] + "\n"
-        rollobjects = logentry["rollobjects"]
-        for r in rollobjects:
-            s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"])
-        if len(rollobjects) == 2:
-            s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
+        s = time.ctime(logentry["timestamp"]) + "\n"
+        s = s + logentry["text"] + "\n"
+        # rollobjects = logentry["rollobjects"]
+        # for r in rollobjects:
+            # s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fatestring"], r["rollvalue"], r["mod"], r["result"])
+        # if len(rollobjects) == 2:
+            # s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
         entries.append(s)
     return entries
 
@@ -32,8 +32,7 @@ def docroot():
 @get('/roll', method='GET')
 def process_roll():
     line = request.query.message
-    rollobjects = core.get_rollobjects(line)
-    logentry = core.create_logentry(rollobjects, line)
+    logentry = core.submit(line)
     persistentstorage.appendentry_save(logentry)
     redirect('/')
 
