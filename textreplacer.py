@@ -12,9 +12,9 @@ def repsymbols(s):
     s = s.replace("]","")
     s = s.replace("-","#")
     s = s.replace(" ","@")
-    s = s.replace("#", '<i class="far fa-minus-square"></i> ')
-    s = s.replace("+", '<i class="far fa-plus-square"></i> ')
-    s = s.replace("@", '<i class="far fa-square"></i> ')
+    s = s.replace("#", '<i class="fa fa-minus-square-o"></i> ')
+    s = s.replace("+", '<i class="fa fa-plus-square-o"></i> ')
+    s = s.replace("@", '<i class="fa fa-square-o"></i> ')
     return s
 
 def get_fatestrings(text):

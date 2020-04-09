@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Rolls</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
 <body>
 <div class="container">
@@ -15,16 +15,15 @@
 		<button name="submit" type="submit" tabindex="2">Roll!</button>
   </form>
 </div>
-<i class="fa fa-spinner fa-spin"></i>
+
 <div class="container">
 <div id="logbook">
 % for entry in entries:
-    <p>
+		<hr />
     {{ entry["timestamp"] }}
-    </p>
-    <p>
+		<h4>
     {{ entry["text"] }}
-    </p>
+		</h4>
 
     <p>
     % for r in entry["rolls"]:
