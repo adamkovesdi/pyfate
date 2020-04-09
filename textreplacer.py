@@ -1,23 +1,31 @@
 # Replace Fate dice symbols in text strings
 import re
 
-def findfate(s):
-    s = s.replace("\n", '<br />')
-    s = s.replace("[+]", '<i class="fa fa-plus-square-o"></i> ')
-    s = s.replace("[-]", '<i class="fa fa-minus-square-o"></i> ')
-    s = s.replace("[ ]", '<i class="fa fa-square-o"></i> ')
-    spin = '<i class="fa fa-spinner fa-spin"></i> '
-    return spin + s
-
 fatestr='''This is a new roll
 [+ --] + 3 = 2 [ez meg nem] [+3]
 [-++ ] + 4 = 5
 Ez nagyobb
 '''
+
+def repsymbols(s):
+    s = s.replace("[","")
+    s = s.replace("]","")
+    s = s.replace("-","#")
+    s = s.replace(" ","@")
+    s = s.replace("#", '<i class="fas fa-minus-square-o"></i> ')
+    s = s.replace("+", '<i class="fas fa-plus-square-o"></i> ')
+    s = s.replace("@", '<i class="fas fa-square-o"></i> ')
+    return s
+
 def get_fatestrings(text):
     fat = re.compile(r'\[[-+ ]{4}\]')
-    strings = fat.findall(text)
-    return list(map(lambda x: x[1:-1], strings))
+    return fat.findall(text)
 
-print(fatestr)
-print(get_fatestrings(fatestr))
+def replace_fatestrings_faicons(text):
+    result = text
+    fs = get_fatestrings(text)
+    for f in fs:
+        result = result.replace(f,repsymbols(f))
+    return result
+
+print(replace_fatestrings_faicons(fatestr))

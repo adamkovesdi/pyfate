@@ -33,9 +33,6 @@
 
     % if entry.get("diff", "") != "":
         Rolls difference: {{ entry.get("diff") }}
-<i class="fas fa-square"></i>
-<i class="fas fa-plus-square"></i>
-<i class="fas fa-minus-square"></i>
     %end #if
     </p>
 % end # entries for
