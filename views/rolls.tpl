@@ -139,10 +139,25 @@ fieldset {
 
 <div id="logbook">
 % for entry in entries:
-<pre class="entry">
-{{ entry }}
-</pre>
-% end
+    <p>
+    {{ entry["timestamp"] }}
+    </p>
+    <p>
+    {{ entry["text"] }}
+    </p>
+
+    <p>
+    % for r in entry["rolls"]:
+        {{ r }}
+        <br />
+    % end # for r
+
+    % if entry.get("diff", "") != "":
+        {{ entry.get("diff") }}
+    %end #if
+    </p>
+    <br />
+% end # entries for
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
