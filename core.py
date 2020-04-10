@@ -3,8 +3,15 @@ import random
 import time
 rollstring = '++++++++--------        '
 
+# Understanding help
+# ------------------
 # rollcmd: !3
 # resultstring: "++ -"
+# rollobject["cmd"] Textual representation of the roll command e.g. !3
+# rollobject["fate"] Fate dices e.g. "++ -" 
+# rollobject["roll"] Roll value e.g.  1 
+# rollobject["mod"]  Modifier value e.g. 3
+# rollobject["result"] Result of the roll e.g. roll + mod = 4 
 
 def roll_fatedice():
     return ''.join(random.sample(rollstring,4))

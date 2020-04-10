@@ -9,9 +9,9 @@ def print_logentry(logentry):
     rollobjects = core.produce_rollobjects(logentry["text"],
     logentry["results"])
     for r in rollobjects:
-        s = s + '[{0}] {1} + {2} = {3}\n'.format(r["fate"], r["roll"], r["mod"], r["result"])
+        s = s + ' [{0}] {1} + {2} = {3}\n'.format(r["fate"], r["roll"], r["mod"], r["result"])
     if len(rollobjects) == 2:
-        s = s + 'Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
+        s = s + ' Rolls difference: {0}\n'.format(core.diff_rollobjects(rollobjects))
     print(s)
 
 def print_logbook(logbook):

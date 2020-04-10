@@ -14,9 +14,7 @@ def prepare_data(logbook):
         entry["timestamp"] = time.ctime(logentry["timestamp"])
         entry["text"] = logentry["text"]
         rollobjects = core.produce_rollobjects(logentry["text"], logentry["results"])
-        entry["rolls"] = list(map(lambda r:
-            '[{0}]  + {1} = {2}'.format(r["fate"], r["mod"], r["result"])
-            , rollobjects))
+        entry["rolls"] = rollobjects
         if len(rollobjects) == 2:
             entry["diff"] = '{0}'.format(core.diff_rollobjects(rollobjects))
         entries.append(entry)

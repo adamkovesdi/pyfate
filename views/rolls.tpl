@@ -26,7 +26,6 @@
 
 <!-- Logbook, roll history contains server side code -->
 <div id="logbook">
-	% import textreplacer
 	% for entry in entries:
 		<hr />
 		<p class="font-weight-bold">
@@ -37,7 +36,26 @@
 		</p>
 		<p>
 			% for r in entry["rolls"]:
-				{{ ! textreplacer.replace_fatestrings_faicons(r) }}
+				% for fatestr in r["fate"]:
+					% for c in fatestr:
+						% if c == "+":
+							<i class="fa fa-plus-square-o"></i> 
+						% end # if
+						% if c == "-":
+							<i class="fa fa-minus-square-o"></i> 
+						% end # if
+						% if c == " ":
+							<i class="fa fa-square-o"></i> 
+						% end # if
+					% end # for c
+				% end # for fatestr
+				% if r["mod"] < 0:
+					- {{ abs(r["mod"]) }}
+				% else:
+					+ {{ r["mod"] }}
+				% end # if positive
+				=
+				{{ r["result"] }}
 				<br />
 			% end # for r
 
