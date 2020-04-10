@@ -4,9 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Rolls</title>
-	<script src="https://kit.fontawesome.com/e0c64a79c6.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<title>Fate dice roller</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
@@ -14,17 +14,16 @@
 		<textarea name="message" placeholder="Roll description" tabindex="1" required autofocus></textarea>
 		<button name="submit" type="submit" tabindex="2">Roll!</button>
   </form>
-</div>
 
-<div class="container">
 <div id="logbook">
 % for entry in entries:
 		<hr />
-    {{ entry["timestamp"] }}
-		<h4>
-    {{ entry["text"] }}
-		</h4>
-
+		<p class="font-weight-bold">
+			% lines = entry["text"].split("\n")
+			% for l in lines:
+				{{ l }}<br />
+			% end
+		</p>
     <p>
     % for r in entry["rolls"]:
         {{ ! textreplacer.replace_fatestrings_faicons(r) }}
@@ -35,6 +34,9 @@
         Rolls difference: {{ entry.get("diff") }}
     %end #if
     </p>
+		<p class="small">
+    {{ entry["timestamp"] }}
+		</p>
 % end # entries for
 </div> <!-- logbook -->
 </div> <!-- container -->
