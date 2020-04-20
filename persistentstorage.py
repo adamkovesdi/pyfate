@@ -29,3 +29,14 @@ def load_logbook():
         for l in lines:
             logbook.append(json.loads(l))
     return logbook
+
+
+def read_shortchuts():
+    shortcuts = []
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    my_file = os.path.join(THIS_FOLDER, 'shortcuts.json')
+    with open(my_file, 'r') as fp:
+        lines = fp.readlines()
+        for l in lines:
+            shortcuts.append(json.loads(l))
+    return shortcuts

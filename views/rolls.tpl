@@ -16,38 +16,13 @@
 	<div class="collapse" id="characters">
 	<table class="table table-sm">
 	<tbody class="selector" style="cursor: pointer;">
-		<tr>
-			<td>Lövész Megfontolt !1</td>
-			<td>Lövész Agyafúrt !1</td>
-			<td>Lövész Extravagáns !0</td>
-			<td>Lövész Erőszakos !2</td>
-			<td>Lövész Fürge !2</td>
-			<td>Lövész Sunyi !3</td>
-		</tr>
-		<tr>
-			<td>Lilu Megfontolt !1</td>
-			<td>Lilu Agyafúrt !2</td>
-			<td>Lilu Extravagáns !3</td>
-			<td>Lilu Erőszakos !1</td>
-			<td>Lilu Fürge !2</td>
-			<td>Lilu Sunyi !0</td>
-		</tr>
-		<tr>
-			<td>Doki Megfontolt !2</td>
-			<td>Doki Agyafúrt !3</td>
-			<td>Doki Extravagáns !1</td>
-			<td>Doki Erőszakos !0</td>
-			<td>Doki Fürge !2</td>
-			<td>Doki Sunyi !1</td>
-		</tr>
-		<tr>
-			<td>Bob Megfontolt !0</td>
-			<td>Bob Agyafúrt !1</td>
-			<td>Bob Extravagáns !2</td>
-			<td>Bob Erőszakos !2</td>
-			<td>Bob Fürge !2</td>
-			<td>Bob Sunyi !1</td>
-		</tr>
+    % for row in tabledata:
+        <tr>
+        % for col in row:
+            <td> {{ col }} </td>
+        % end # for col
+        </tr>
+    % end # for
 	</tbody>
 	</table>
 	</div>
@@ -117,7 +92,7 @@
 </div> <!--col main -->
 
 <div class="col-3 d-print-none"> <!-- the ladder -->
-	<table class="table table-sm table-hover">
+	<table class="table table-sm">
 		<thead class="thead-dark">
 			<tr><th><i class="fa fa-plus-square-o"></i><i class="fa fa-minus-square-o"></i></th><th>The Ladder</th></tr>
 		</thead>
@@ -155,7 +130,7 @@
         $('.selector td').click(function() {
             var value = $(this).text();
             var input = $('#rollcommand');
-            input.val(input.val() + value );
+            input.val(input.val() + ' ' + value + ' ');
 						document.getElementById('rollcommand').focus();
             return false;
         });

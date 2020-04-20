@@ -23,8 +23,9 @@ def prepare_data(logbook):
 @route('/')
 def docroot():
     lb = persistentstorage.load_logbook()
+    sc = persistentstorage.read_shortchuts()
     data = prepare_data(lb)
-    return template('rolls', entries = data)
+    return template('rolls', entries = data, tabledata = sc)
 
 @get('/roll', method='GET')
 def process_roll():
