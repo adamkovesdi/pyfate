@@ -27,17 +27,10 @@ def calculate_mod(rollstring):
         return 0
 
 def get_rollcmds(text):
-    tokens = text.split()
-    rollcmds = list(filter(lambda x: x[0] == '!', tokens))
-    return rollcmds
+    return [ x for x in text.split() if x[0]=='!' ]
 
 def create_rollresults(line):
-    rollcmds = get_rollcmds(line)
-    results = []
-    for r in rollcmds:
-        roll = roll_fatedice()
-        results.append(roll)
-    return results
+    return [ roll_fatedice() for _ in get_rollcmds(line) ]
 
 def create_rollobject(rollstring, result):
     if rollstring is None: return
@@ -58,10 +51,8 @@ def diff_rollobjects(rollobjects):
 
 def produce_rollobjects(text, results):
     rollstrings = get_rollcmds(text)
-    rollobjects = []
-    for n, rollstring in enumerate(rollstrings):
-        rollobjects.append(create_rollobject(rollstring,results[n]))
-    return rollobjects
+    return [ create_rollobject(rstr, res) for rstr, res in zip(rollstrings,
+        results) ]
 
 def rollobjects_from_entry(entry):
     return produce_rollobjects(entry["text"], entry["results"])
